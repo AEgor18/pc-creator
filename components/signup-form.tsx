@@ -1,11 +1,8 @@
+'use client';
+
+import { signupAction, SignupState } from '@/app/signup/actions';
 import { Button } from '@/components/ui/button';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
 	Field,
 	FieldDescription,
@@ -13,20 +10,27 @@ import {
 	FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { useActionState } from 'react';
+import { ErrorMessage } from './error-message';
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
+	const [state, formAction] = useActionState<SignupState | null, FormData>(
+		signupAction,
+		null,
+	);
 	return (
 		<Card {...props}>
 			<CardHeader>
 				<CardTitle>Создать аккаунт</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<form>
+				<form action={formAction}>
 					<FieldGroup>
 						<Field>
 							<FieldLabel htmlFor='name'>Имя</FieldLabel>
 							<Input
 								id='name'
+								name='name'
 								type='text'
 								placeholder='Иван Иванов'
 								required
@@ -37,16 +41,25 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 							<Input
 								id='email'
 								type='email'
+								name='email'
 								placeholder='example@example.com'
 								required
 							/>
 						</Field>
 						<Field>
 							<FieldLabel htmlFor='password'>Пароль</FieldLabel>
-							<Input id='password' type='password' required />
+							<Input
+								id='password'
+								name='password'
+								type='password'
+								required
+							/>
 							<FieldDescription>
-								Пароль должен быть больше 8 символов
+								Пароль должен быть не менее 8 символов
 							</FieldDescription>
+							{state?.error && (
+								<ErrorMessage message={state.error} />
+							)}
 						</Field>
 						<FieldGroup>
 							<Field>
