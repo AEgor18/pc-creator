@@ -30,9 +30,9 @@ model Component {
   name String
   price Int
 
-  socket String
+  socket String?
 
-  buildComponents BuildComponents[]
+  buildComponents BuildComponent[]
 }
 
 model Build {
