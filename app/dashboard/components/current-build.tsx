@@ -6,6 +6,7 @@ import type { Component } from '@/lib/types';
 import { useCallback, useState } from 'react';
 import { TableParts } from './table';
 import { componentCategories } from '@/lib/constants';
+import { SaveBuildDialog } from './save-build-dialog';
 
 export const CurrentBuild = () => {
 	const [selectedByCategory, setSelectedByCategory] = useState<
@@ -33,6 +34,11 @@ export const CurrentBuild = () => {
 					selectedByCategory={selectedByCategory}
 					components={componentCategories}
 					onSelectedComponent={onSelectComponent}
+				/>
+				<SaveBuildDialog
+					onOpenChange={setSaveDialogOpen}
+					open={saveDialogOpen}
+					selectedByCategory={selectedByCategory}
 				/>
 			</div>
 		</>

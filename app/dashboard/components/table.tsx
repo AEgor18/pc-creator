@@ -6,6 +6,7 @@ import {
 	Table,
 	TableBody,
 	TableCell,
+	TableFooter,
 	TableHead,
 	TableHeader,
 	TableRow,
@@ -23,6 +24,7 @@ import {
 	Plus,
 } from 'lucide-react';
 import { useState } from 'react';
+import { AddComponentDialog } from './add-component-dialog';
 
 const iconMap: Record<string, React.ElementType> = {
 	cpu: Cpu,
@@ -103,12 +105,30 @@ export function TableParts({
 											{selected ? 'Изменить' : 'Добавить'}
 										</Button>
 									</DialogTrigger>
+									<AddComponentDialog
+										categoryId={category.id}
+										categoryName={category.name}
+										onSelect={(c) => {
+											onSelectedComponent(category.id, c);
+											setOpenCategoryId(null);
+										}}
+									/>
 								</Dialog>
 							</TableCell>
 						</TableRow>
 					);
 				})}
 			</TableBody>
+			<TableFooter>
+				<TableRow>
+					<TableCell colSpan={5}>
+						<p className='font-medium'>Цена сборки:</p>
+						<p className='font-large text-gray-500'>
+							{new Intl.NumberFormat('ru-RU').format(totalPrice)}
+						</p>
+					</TableCell>
+				</TableRow>
+			</TableFooter>
 		</Table>
 	);
 }
